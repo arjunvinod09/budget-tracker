@@ -48,4 +48,9 @@ public class BudgetServiceImpl implements BudgetService{
     public Optional<List<Budget>> findByDate(String date) {
         return budgetRepository.findByCreatedDate(LocalDate.parse(date));
     }
+
+    @Override
+    public Optional<List<Budget>> findByCategory(Category category) {
+        return budgetRepository.findByCategory(category);
+    }
 }

@@ -19,4 +19,6 @@ public interface BudgetService {
     List<Budget> getAllTransactions();
 
     Optional<List<Budget>> findByDate(String date);
+
+    Optional<List<Budget>> findByCategory(Category category);
 }

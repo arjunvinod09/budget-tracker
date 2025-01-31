@@ -29,6 +29,11 @@ public class BudgetController {
         return new ResponseEntity<>(budgetService.findByDate(date),HttpStatus.OK);
     }
 
+    @GetMapping("/category")
+    public ResponseEntity<Optional<List<Budget>>> findByCategory(@RequestParam Category category){
+        return new ResponseEntity<>(budgetService.findByCategory(category),HttpStatus.OK);
+    }
+
     @GetMapping("/spend/total")
     public ResponseEntity<Double> getTotalAmount(){
         return new ResponseEntity<>(budgetService.totalAmount(), HttpStatus.OK);
