@@ -2,6 +2,7 @@ package com.ust.budget.service;
 
 import com.ust.budget.model.Budget;
 import com.ust.budget.model.Category;
+import com.ust.budget.model.Type;
 import com.ust.budget.repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,21 @@ public class BudgetServiceImpl implements BudgetService{
 
     @Override
     public Double totalAmount() {
-        return budgetRepository.findAllAmount().stream()
-                .mapToDouble(Double::doubleValue)
-                .sum();
+        List<Budget> budgets = budgetRepository.findAll();
+        double total = 0.0;
+        for(Budget budget : budgets){
+            System.out.println(total);
+            if(budget.getType()== Type.DEBIT){
+                total += budget.getAmount();
+            }
+            else if(budget.getType() == Type.CREDIT){
+                total -= budget.getAmount();
+            }
+        }
+        return total;
     }
 
+    //TODO make every calculation accurate based on DEBIT or CREDIT
     @Override
     public Map<Category, Double> totalByCategory() {
         return budgetRepository.findAll().stream()
@@ -35,8 +46,8 @@ public class BudgetServiceImpl implements BudgetService{
     }
 
     @Override
-    public void addBudget(Budget budget) {
-        budgetRepository.save(budget);
+    public Budget addBudget(Budget budget) {
+        return budgetRepository.save(budget);
     }
 
     @Override
@@ -45,12 +56,24 @@ public class BudgetServiceImpl implements BudgetService{
     }
 
     @Override
-    public Optional<List<Budget>> findByDate(String date) {
-        return budgetRepository.findByCreatedDate(LocalDate.parse(date));
+    public List<Budget> findByDate(String date) {
+        return budgetRepository.findAllByCreatedDate(LocalDate.parse(date));
     }
 
     @Override
-    public Optional<List<Budget>> findByCategory(Category category) {
-        return budgetRepository.findByCategory(category);
+    public List<Budget> findByCategory(Category category) {
+        return budgetRepository.findAllByCategory(category);
     }
+
+//    private long getNextBudgetId() {
+//        Optional<Budget> latestBudgetOptional = budgetRepository.findTopByOrderByIdDesc();
+//
+//        if (latestBudgetOptional.isPresent()) {
+//            Budget latestBudget = latestBudgetOptional.get();
+//            Long latestId = latestBudget.getNo();
+//            return latestId++;
+//        } else {
+//            return 1;
+//        }
+//    }
 }
