@@ -24,13 +24,14 @@ public class BudgetController {
         return new ResponseEntity<>(budgetService.getAllTransactions(),HttpStatus.OK);
     }
 
+    //broken after merging date and time
     @GetMapping("/date")
-    public ResponseEntity<Optional<List<Budget>>> findByDate(@RequestParam String date){
+    public ResponseEntity<List<Budget>> findByDate(@RequestParam String date){
         return new ResponseEntity<>(budgetService.findByDate(date),HttpStatus.OK);
     }
 
     @GetMapping("/category")
-    public ResponseEntity<Optional<List<Budget>>> findByCategory(@RequestParam Category category){
+    public ResponseEntity<List<Budget>> findByCategory(@RequestParam Category category){
         return new ResponseEntity<>(budgetService.findByCategory(category),HttpStatus.OK);
     }
 
@@ -46,7 +47,6 @@ public class BudgetController {
 
     @PostMapping("/new")
     public ResponseEntity<Budget> addNewBudget(@RequestBody Budget budget){
-        budgetService.addBudget(budget);
-        return new ResponseEntity<>(budget,HttpStatus.OK);
+        return new ResponseEntity<>(budgetService.addBudget(budget),HttpStatus.OK);
     }
 }

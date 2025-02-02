@@ -14,11 +14,11 @@ public interface BudgetService {
 
     Map<Category,Double> totalByCategory();
 
-    void addBudget(Budget budget);
+    Budget addBudget(Budget budget);
 
     List<Budget> getAllTransactions();
 
-    Optional<List<Budget>> findByDate(String date);
+    List<Budget> findByDate(String date);
 
-    Optional<List<Budget>> findByCategory(Category category);
+    List<Budget> findByCategory(Category category);
 }

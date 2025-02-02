@@ -1,41 +1,92 @@
 package com.ust.budget.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
-@Entity
 @Data
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "budget")
 public class Budget {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    private String _id;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    @Field("no")
+    private long no;
 
-    private Double amount;
-
+    @Field("description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @Field("type")
     private Type type;
 
-    private LocalDate createdDate;
+    @Field("category")
+    private Category category;
 
-    private LocalTime createdTime;
+    @Field("amount")
+    private Double amount;
 
-    @PrePersist
-    private void onCreate(){
-        this.createdDate = LocalDate.now();
-        this.createdTime = LocalTime.now();
+    @Field("createdDate")
+    private LocalDateTime createdDate;
+
+    public long getNo() {
+        return no;
     }
+
+    public void setNo(long no) {
+        this.no = no;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+//    @BeforeSave
+//    public void onCreate(){
+//        this.createdDate = LocalDate.now();
+//        this.createdTime = LocalTime.now();
+//    }
 }
