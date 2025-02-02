@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://arjunvinod09:GdLJ2gTu7TVwEMge@budget.bnbyp.mongodb.net/?retryWrites=true&w=majority&appName=budget
+      database: budget
+  application:
+    name: budget
+
+server:
+  port: 8080
