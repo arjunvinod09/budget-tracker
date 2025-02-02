@@ -8,5 +8,6 @@ public enum Category {
     EMI,
     BILLS,
     TRAVEL,
+    TRANSFER,
     OTHER
 }
