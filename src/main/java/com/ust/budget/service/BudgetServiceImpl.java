@@ -24,7 +24,6 @@ public class BudgetServiceImpl implements BudgetService{
         List<Budget> budgets = budgetRepository.findAll();
         double total = 0.0;
         for(Budget budget : budgets){
-            System.out.println(total);
             if(budget.getType()== Type.DEBIT){
                 total += budget.getAmount();
             }
@@ -41,12 +40,17 @@ public class BudgetServiceImpl implements BudgetService{
         return budgetRepository.findAll().stream()
                 .collect(Collectors.groupingBy(
                         Budget::getCategory,
-                        Collectors.summingDouble(Budget::getAmount)
+                        Collectors.summingDouble(budget ->
+                                "CREDIT".equalsIgnoreCase(budget.getType().toString())
+                                        ? -budget.getAmount()
+                                        : budget.getAmount()
+                        )
                 ));
     }
 
     @Override
     public Budget addBudget(Budget budget) {
+        budget.setNo(getNextBudgetId());
         return budgetRepository.save(budget);
     }
 
@@ -65,15 +69,14 @@ public class BudgetServiceImpl implements BudgetService{
         return budgetRepository.findAllByCategory(category);
     }
 
-//    private long getNextBudgetId() {
-//        Optional<Budget> latestBudgetOptional = budgetRepository.findTopByOrderByIdDesc();
-//
-//        if (latestBudgetOptional.isPresent()) {
-//            Budget latestBudget = latestBudgetOptional.get();
-//            Long latestId = latestBudget.getNo();
-//            return latestId++;
-//        } else {
-//            return 1;
-//        }
-//    }
+    private long getNextBudgetId() {
+        Optional<Budget> latestBudgetOptional = budgetRepository.findTopByOrderByNoDesc();
+        if (latestBudgetOptional.isPresent()) {
+            Budget latestBudget = latestBudgetOptional.get();
+            Long latestId = latestBudget.getNo();
+            return latestId + 1;
+        } else {
+            return 1;
+        }
+    }
 }
