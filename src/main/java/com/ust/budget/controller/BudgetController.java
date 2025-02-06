@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +23,8 @@ public class BudgetController {
 
     @GetMapping
     public ResponseEntity<List<Budget>> getAllTransaction(){
-        return new ResponseEntity<>(budgetService.getAllTransactions(),HttpStatus.OK);
+//        return new ResponseEntity<>(budgetService.getAllTransactions(),HttpStatus.OK);
+        return new ResponseEntity<>(budgetService.findThisMonthsSpend(),HttpStatus.OK);
     }
 
     //broken after merging date and time

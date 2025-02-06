@@ -3,10 +3,8 @@ package com.ust.budget.service;
 import com.ust.budget.model.Budget;
 import com.ust.budget.model.Category;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface BudgetService {
 
@@ -21,4 +19,6 @@ public interface BudgetService {
     List<Budget> findByDate(String date);
 
     List<Budget> findByCategory(Category category);
+
+    List<Budget> findThisMonthsSpend();
 }

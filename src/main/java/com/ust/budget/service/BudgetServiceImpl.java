@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,9 +21,12 @@ public class BudgetServiceImpl implements BudgetService{
     @Autowired
     BudgetRepository budgetRepository;
 
+    private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
+    private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
+
     @Override
     public Double totalAmount() {
-        List<Budget> budgets = budgetRepository.findAll();
+        List<Budget> budgets = budgetRepository.findByMonth(start,end);
         double total = 0.0;
         for(Budget budget : budgets){
             if(budget.getType()== Type.DEBIT){
@@ -37,7 +42,7 @@ public class BudgetServiceImpl implements BudgetService{
     //TODO make every calculation accurate based on DEBIT or CREDIT
     @Override
     public Map<Category, Double> totalByCategory() {
-        return budgetRepository.findAll().stream()
+        return budgetRepository.findByMonth(start,end).stream()
                 .collect(Collectors.groupingBy(
                         Budget::getCategory,
                         Collectors.summingDouble(budget ->
@@ -66,7 +71,12 @@ public class BudgetServiceImpl implements BudgetService{
 
     @Override
     public List<Budget> findByCategory(Category category) {
-        return budgetRepository.findAllByCategory(category);
+        return budgetRepository.findAllByCategoryAndCreatedDateBetween(category,start,end);
+    }
+
+    @Override
+    public List<Budget> findThisMonthsSpend() {
+        return budgetRepository.findByMonth(start,end);
     }
 
     private long getNextBudgetId() {
