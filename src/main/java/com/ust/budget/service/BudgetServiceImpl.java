@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,20 +18,26 @@ public class BudgetServiceImpl implements BudgetService{
 
     @Autowired
     BudgetRepository budgetRepository;
+    ArrayList<Long> requiredNo = new ArrayList<>();
 
     private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
     private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
 
     @Override
     public Double totalAmount() {
+        for(int i=0;i<100;i++){
+            requiredNo.add(i+1L);
+        }
         List<Budget> budgets = budgetRepository.findByMonth(start,end);
         double total = 0.0;
         for(Budget budget : budgets){
-            if(budget.getType()== Type.DEBIT){
-                total += budget.getAmount();
-            }
-            else if(budget.getType() == Type.CREDIT){
-                total -= budget.getAmount();
+            if(requiredNo.contains(budget.getNo())){
+                if(budget.getType()== Type.DEBIT){
+                    total += budget.getAmount();
+                }
+                else if(budget.getType() == Type.CREDIT){
+                    total -= budget.getAmount();
+                }
             }
         }
         return total;
