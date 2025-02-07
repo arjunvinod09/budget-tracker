@@ -10,6 +10,8 @@ public interface BudgetService {
 
     Double totalAmount();
 
+    Double totalDaily();
+
     Map<Category,Double> totalByCategory();
 
     Budget addBudget(Budget budget);

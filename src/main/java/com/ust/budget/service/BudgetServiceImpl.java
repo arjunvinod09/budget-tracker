@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,6 +20,9 @@ public class BudgetServiceImpl implements BudgetService{
     @Autowired
     BudgetRepository budgetRepository;
     ArrayList<Long> requiredNo = new ArrayList<>();
+
+    LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+    LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
 
     private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
     private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
@@ -42,6 +46,22 @@ public class BudgetServiceImpl implements BudgetService{
         }
         return total;
     }
+
+    @Override
+    public Double totalDaily() {
+        List<Budget> budgets = budgetRepository.findByMonth(startOfDay,endOfDay);
+        double total = 0.0;
+        for(Budget budget : budgets){
+            if(budget.getType()== Type.DEBIT){
+                total += budget.getAmount();
+            }
+            else if(budget.getType() == Type.CREDIT){
+                total -= budget.getAmount();
+            }
+        }
+        return total;
+    }
+
 
     //TODO make every calculation accurate based on DEBIT or CREDIT
     @Override
