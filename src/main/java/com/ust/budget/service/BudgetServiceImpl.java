@@ -21,8 +21,8 @@ public class BudgetServiceImpl implements BudgetService{
     BudgetRepository budgetRepository;
     ArrayList<Long> requiredNo = new ArrayList<>();
 
-    LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-    LocalDateTime endOfDay = LocalDate.now().atTime(LocalTime.MAX);
+    LocalDateTime startOfDay = LocalDate.now().minusDays(0).atStartOfDay();
+    LocalDateTime endOfDay = LocalDate.now().minusDays(0).atTime(LocalTime.MAX);
 
     private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
     private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
