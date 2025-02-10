@@ -21,9 +21,6 @@ public class BudgetServiceImpl implements BudgetService{
     BudgetRepository budgetRepository;
     ArrayList<Long> requiredNo = new ArrayList<>();
 
-    LocalDateTime startOfDay = LocalDate.now().minusDays(0).atStartOfDay();
-    LocalDateTime endOfDay = LocalDate.now().minusDays(0).atTime(LocalTime.MAX);
-
     private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
     private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
 
@@ -48,10 +45,15 @@ public class BudgetServiceImpl implements BudgetService{
     }
 
     @Override
-    public Double totalDaily() {
+    public Double totalDaily(int day) {
+        LocalDateTime startOfDay = LocalDate.now().withDayOfMonth(day).atStartOfDay();
+        LocalDateTime endOfDay = LocalDate.now().withDayOfMonth(day).atTime(LocalTime.MAX);
         List<Budget> budgets = budgetRepository.findByMonth(startOfDay,endOfDay);
         double total = 0.0;
         for(Budget budget : budgets){
+            if(budget.getCategory()==Category.SAVINGS){
+                continue;
+            }
             if(budget.getType()== Type.DEBIT){
                 total += budget.getAmount();
             }

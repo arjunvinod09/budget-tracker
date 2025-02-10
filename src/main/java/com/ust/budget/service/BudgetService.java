@@ -10,7 +10,7 @@ public interface BudgetService {
 
     Double totalAmount();
 
-    Double totalDaily();
+    Double totalDaily(int day);
 
     Map<Category,Double> totalByCategory();
 

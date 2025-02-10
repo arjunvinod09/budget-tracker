@@ -44,8 +44,8 @@ public class BudgetController {
     }
 
     @GetMapping("/spend/daily")
-    public ResponseEntity<Double> getTotalAmountDaily(){
-        return new ResponseEntity<>(budgetService.totalDaily(), HttpStatus.OK);
+    public ResponseEntity<Double> getTotalAmountDaily(@RequestParam int day){
+        return new ResponseEntity<>(budgetService.totalDaily(day), HttpStatus.OK);
     }
 
     @GetMapping("/spend/category")
