@@ -53,6 +53,11 @@ public class BudgetController {
         return new ResponseEntity<>(budgetService.totalByCategory(),HttpStatus.OK);
     }
 
+    @GetMapping("/daily")
+    public ResponseEntity<List<Budget>> dailyTransaction(@RequestParam int day){
+        return new ResponseEntity<>(budgetService.dailyTransactions(day), HttpStatus.OK);
+    }
+
     @PostMapping("/new")
     public ResponseEntity<Budget> addNewBudget(@RequestBody Budget budget){
         return new ResponseEntity<>(budgetService.addBudget(budget),HttpStatus.OK);

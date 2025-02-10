@@ -23,4 +23,6 @@ public interface BudgetService {
     List<Budget> findByCategory(Category category);
 
     List<Budget> findThisMonthsSpend();
+
+    List<Budget> dailyTransactions(int day);
 }

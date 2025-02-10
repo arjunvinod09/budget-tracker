@@ -105,6 +105,13 @@ public class BudgetServiceImpl implements BudgetService{
         return budgetRepository.findByMonth(start,end);
     }
 
+    @Override
+    public List<Budget> dailyTransactions(int day) {
+        LocalDateTime startOfDay = LocalDate.now().withDayOfMonth(day).atStartOfDay();
+        LocalDateTime endOfDay = LocalDate.now().withDayOfMonth(day).atTime(LocalTime.MAX);
+        return budgetRepository.findByMonth(startOfDay,endOfDay);
+    }
+
     private long getNextBudgetId() {
         Optional<Budget> latestBudgetOptional = budgetRepository.findTopByOrderByNoDesc();
         if (latestBudgetOptional.isPresent()) {
