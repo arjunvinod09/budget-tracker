@@ -9,5 +9,6 @@ public enum Category {
     BILLS,
     TRAVEL,
     TRANSFER,
+    SAVINGS,
     OTHER
 }
