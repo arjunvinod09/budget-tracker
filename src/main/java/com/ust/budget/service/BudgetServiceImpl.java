@@ -111,7 +111,7 @@ public class BudgetServiceImpl implements BudgetService{
         Optional<Budget> latestBudgetOptional = budgetRepository.findTopByOrderByNoDesc();
         if (latestBudgetOptional.isPresent()) {
             Budget latestBudget = latestBudgetOptional.get();
-            Long latestId = latestBudget.getNo();
+            long latestId = latestBudget.getNo();
             return latestId + 1;
         } else {
             return 1;
