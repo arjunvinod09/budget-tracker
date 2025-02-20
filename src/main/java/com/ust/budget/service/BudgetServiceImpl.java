@@ -26,19 +26,14 @@ public class BudgetServiceImpl implements BudgetService{
 
     @Override
     public Double totalAmount() {
-        for(int i=0;i<100;i++){
-            requiredNo.add(i+1L);
-        }
         List<Budget> budgets = budgetRepository.findByMonth(start,end);
         double total = 0.0;
         for(Budget budget : budgets){
-            if(requiredNo.contains(budget.getNo())){
-                if(budget.getType()== Type.DEBIT){
-                    total += budget.getAmount();
-                }
-                else if(budget.getType() == Type.CREDIT){
-                    total -= budget.getAmount();
-                }
+            if(budget.getType()== Type.DEBIT){
+                total += budget.getAmount();
+            }
+            else if(budget.getType() == Type.CREDIT){
+                total -= budget.getAmount();
             }
         }
         return total;
