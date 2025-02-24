@@ -22,7 +22,7 @@ public class BudgetServiceImpl implements BudgetService{
     ArrayList<Long> requiredNo = new ArrayList<>();
 
     private final LocalDateTime start = YearMonth.of(2025, LocalDate.now().minusMonths(1).getMonth()).atEndOfMonth().atTime(14,00,00);
-    private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(23, 59, 59);
+    private final LocalDateTime end = YearMonth.of(2025, LocalDate.now().getMonth()).atEndOfMonth().atTime(13, 59, 59);
 
     @Override
     public Double totalAmount() {
